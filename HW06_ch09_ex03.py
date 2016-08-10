@@ -68,17 +68,22 @@ def find_five():
             outputList.append([nCount, chr(x)])
         else:
             # check if the element should be added to the list
-            if(nCount < int(max(outputList)[0])):
+            if(nCount > int(min(outputList)[0])):
                 # remove the element with the maximum count
                 outputList.sort()
-                outputList.pop()
+                outputList.pop(0)
                 outputList.append([nCount, chr(x)])
         
     # print the letters and the words excluded
     outputList.sort()
+    outputString = ""
+    # outputString = "".join(outputList)
 
-    for values in outputList:
-        print("Number of Words Excluded By '" + values[1] + "' are: " + str(values[0]))   
+    for items in outputList:
+        outputString += str(items[1])
+        print("Forbidden Letters: " + str(items[1]))
+
+    print("Total Number of Words Excluded: " + str(forbidden_param(outputString)))
 
 
 ##############################################################################
