@@ -22,29 +22,70 @@
 # Body
 
 
-def avoids():
+def avoids(inputWord, inputString):
     """ return True if word NOT forbidden"""
-    ...
+    
+    # Loop through the inputString and check if inputWord contains any character
+    for characters in inputString:
+        if(inputWord.find(characters) == -1):
+            continue
+        else:
+            return False
 
+    return True
 
 def forbidden_prompt():
     """ print count of words NOT forbidden by input"""
-    ...
+    
+    inputString = input("Enter a String of Forbidden Letters: ")
+    nCount = forbidden_param(inputString)
 
+    print("Number of Words Not Forbidden By Input: " + str(nCount))
 
-def forbidden_param():
+def forbidden_param(inputString):
     """ return count of words NOT forbidden by param"""
-    ...
 
+    fileObject = open("words.txt", "r")
+    nCount = 0
+
+    for words in fileObject:
+        if(avoids(words, inputString)):
+            nCount += 1
+
+    return nCount
 
 def find_five():
-    ...
+
+    # initialise a list that would contain the count of excluded words for different letters
+    outputList = list()
+    
+    # loop through letters a - z and count the number of excluded words
+    for x in range(97, 123):
+        nCount = forbidden_param(chr(x))
+
+        # append to the list if the lenght is less than 5, else replace
+        if(len(outputList) < 5):
+            outputList.append([nCount, chr(x)])
+        else:
+            # check if the element should be added to the list
+            if(nCount < int(max(outputList)[0])):
+                # remove the element with the maximum count
+                outputList.sort()
+                outputList.pop()
+                outputList.append([nCount, chr(x)])
+        
+    # print the letters and the words excluded
+    outputList.sort()
+
+    for values in outputList:
+        print("Number of Words Excluded By '" + values[1] + "' are: " + str(values[0]))   
 
 
 ##############################################################################
 def main():
-    ...
     # Your final submission should only call five_five
+
+    find_five()
 
 if __name__ == '__main__':
     main()
